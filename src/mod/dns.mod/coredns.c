@@ -1289,10 +1289,6 @@ static int init_dns_core(void)
 
   /* Initialise the resolv library. */
   MY_RES_INIT();
-  if (!myres.nscount) {
-    putlog(LOG_MISC, "*", "No nameservers defined.");
-    return 0;
-  }
   myres.options |= RES_RECURSE | RES_DEFNAMES | RES_DNSRCH;
   for (i = 0; i < myres.nscount; i++)
     myres.nsaddr_list[i].sin_family = AF_INET;
