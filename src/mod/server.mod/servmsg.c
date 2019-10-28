@@ -1073,7 +1073,7 @@ static void server_activity(int idx, char *msg, int len)
 {
   char *from, *code, *tag = 0;
   char s[TAGMAX];
-  int rawlen = 0;
+  int rawlen;
 
   if (trying_server) {
     strcpy(dcc[idx].nick, "(server)");
@@ -1113,7 +1113,7 @@ static void server_activity(int idx, char *msg, int len)
       if (strcmp(from, "")) {
         rawlen += egg_snprintf(s + rawlen, sizeof s - rawlen, "%s ", from);
       }
-      rawlen += egg_snprintf(s + rawlen, sizeof s - rawlen, "%s %s", code, msg);
+      egg_snprintf(s + rawlen, sizeof s - rawlen, "%s %s", code, msg);
       putlog(LOG_RAW, "*", "%s", s);
   }
   /* This has GOT to go into the raw binding table, * merely because this
