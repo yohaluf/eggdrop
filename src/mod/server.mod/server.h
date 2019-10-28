@@ -62,7 +62,7 @@
 /* 24 - 27 */
 #define default_port (*(int *)(server_funcs[24]))
 #define server_online (*(int *)(server_funcs[25]))
-#define H_tag (*(p_tcl_bind_list *)(server_funcs[26]))
+#define H_rawt (*(p_tcl_bind_list *)(server_funcs[26]))
 #define H_raw (*(p_tcl_bind_list *)(server_funcs[27]))
 /* 28 - 31 */
 #define H_wall (*(p_tcl_bind_list *)(server_funcs[28]))

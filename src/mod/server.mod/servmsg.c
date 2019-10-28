@@ -194,15 +194,15 @@ static int check_tcl_raw(char *from, char *code, char *msg)
   return (x == BIND_EXEC_LOG);
 }
 
-static int check_tcl_tag(char *from, char *code, char *msg, char *tag)
+static int check_tcl_rawt(char *from, char *code, char *msg, char *tag)
 {
   int x;
 
-  Tcl_SetVar(interp, "_tag1", from, 0);
-  Tcl_SetVar(interp, "_tag2", code, 0);
-  Tcl_SetVar(interp, "_tag3", msg, 0);
-  Tcl_SetVar(interp, "_tag4", tag, 0);
-  x = check_tcl_bind(H_tag, code, 0, " $_tag1 $_tag2 $_tag3 $_tag4",
+  Tcl_SetVar(interp, "_rawt1", from, 0);
+  Tcl_SetVar(interp, "_rawt2", code, 0);
+  Tcl_SetVar(interp, "_rawt3", msg, 0);
+  Tcl_SetVar(interp, "_rawt4", tag, 0);
+  x = check_tcl_bind(H_rawt, code, 0, " $_rawt1 $_rawt2 $_rawt3 $_rawt4",
                     MATCH_EXACT | BIND_STACKABLE | BIND_WANTRET);
   return (x == BIND_EXEC_LOG);
 }
@@ -1107,20 +1107,21 @@ static void server_activity(int idx, char *msg, int len)
   if (raw_log && ((strcmp(code, "PRIVMSG") && strcmp(code, "NOTICE")) ||
       !match_ignore(from))) {
       rawlen = egg_snprintf(s, sizeof s, "[@] ");
-      if (strcmp(tag, "")) {
+      if (tag) {
         rawlen += egg_snprintf(s + rawlen, sizeof s - rawlen, "%s", tag);
       }
       if (strcmp(from, "")) {
         rawlen += egg_snprintf(s + rawlen, sizeof s - rawlen, "%s ", from);
       }
       rawlen += egg_snprintf(s + rawlen, sizeof s - rawlen, "%s %s", code, msg);
+      putlog(LOG_RAW, "*", "%s", s);
   }
   /* This has GOT to go into the raw binding table, * merely because this
    * is less efficient.
    */
 //  check_tcl_raw(from, code, msg);
   if (msgtag && tag) {
-    check_tcl_tag(from, code, msg, tag);
+    check_tcl_rawt(from, code, msg, tag);
   } else {
     check_tcl_raw(from, code, msg);
   }
