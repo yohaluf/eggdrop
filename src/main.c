@@ -1283,3 +1283,4 @@ int main(int arg_c, char **arg_v)
     mainloop(1);
   }
 }
+* code kinda thicc tho
